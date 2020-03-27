@@ -136,10 +136,6 @@ public class TicTacToe {
                 return "0";
         }
 
-        // determining if theres a win by diagnols
-        for (int row = 0; row < 3; row++)
-            for (int col = 0; col < 3; col++)
-                s += (board[row][col].equals(" ")) ? 1 : 0;
         x = 0;
         o = 0;
         // checking first pair of diagnols
@@ -163,7 +159,13 @@ public class TicTacToe {
             return "x";
         else if (o == 3)
             return "o";
-        else if (s == 0)
+
+        // determining if theres any empty spaces left
+        for (int row = 0; row < 3; row++)
+            for (int col = 0; col < 3; col++)
+                s += (board[row][col].equals(" ")) ? 1 : 0;
+
+        if (s == 0) // if there are no empty spaces left, tie
             return "nobody";
         else
             return "e"; // means that match isnt over yet. someone could still win
