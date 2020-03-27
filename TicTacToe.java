@@ -147,11 +147,21 @@ public class TicTacToe {
             x += (board[diag][diag].equals("x")) ? 1 : 0;
             o += board[diag][diag].equals("o") ? 1 : 0;
         }
-
-        // checking 2nd pair of diagnols
-        if (x == 3 || (board[0][2].equals("x") && board[1][1].equals("x") && board[2][0].equals("x")))
+        if (x == 3)
             return "x";
-        else if (o == 3 || (board[0][2].equals("o") && board[1][1].equals("o") && board[2][0].equals("o")))
+        else if (o == 3)
+            return "o";
+
+        x = 0;
+        o = 0;
+        // checking 2nd pair of diagnols
+        for(int cdiag = 0; cdiag <3; cdiag++){
+            x += board[cdiag][2 - cdiag].equals("x") ? 1 : 0;
+            o += board[cdiag][2 - cdiag].equals("o") ? 1 : 0;
+        }
+        if (x == 3)
+            return "x";
+        else if (o == 3)
             return "o";
         else if (s == 0)
             return "nobody";
