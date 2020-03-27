@@ -2,9 +2,22 @@ import java.util.Scanner;
 
 public class TicTacToe{
     private static String[][] board = new String[3][3];
-    private static void initBoard(){
-        for (int r=0; r<3; r++)
-            for (int c=0; c<3; c++)
+
+    public static void main(String args[]) {
+        initBoard();
+        construct();
+        while (true) {
+            chooseCoord("x");
+            construct();
+            if (!(decideWin().equals("e")))
+                break;
+            chooseCoord("o");
+            construct();
+            if (!decideWin().equals("e"))
+                break;
+        }
+        System.out.println(decideWin() + " is the winner!");
+    }
                 board[r][c] = " ";
     }
     private static void construct(){
