@@ -133,7 +133,7 @@ public class TicTacToe {
             if (x == 3)
                 return "x";
             else if (o == 3)
-                return "0";
+                return "o";
         }
 
         x = 0;
@@ -151,7 +151,7 @@ public class TicTacToe {
         x = 0;
         o = 0;
         // checking 2nd pair of diagnols
-        for(int cdiag = 0; cdiag <3; cdiag++){
+        for (int cdiag = 0; cdiag < 3; cdiag++) {
             x += board[cdiag][2 - cdiag].equals("x") ? 1 : 0;
             o += board[cdiag][2 - cdiag].equals("o") ? 1 : 0;
         }
