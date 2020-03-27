@@ -8,6 +8,9 @@ public class TicTacToe {
     /** The board used for the entire game */
     private static String[][] board = new String[3][3];
 
+    /** Main scanner used for input */
+    private static Scanner s = new Scanner(System.in);
+
     public static void main(String args[]) {
         initBoard();
         construct();
@@ -22,6 +25,7 @@ public class TicTacToe {
                 break;
         }
         System.out.println(decideWin() + " is the winner!");
+        s.close();
     }
 
     /**
@@ -66,10 +70,8 @@ public class TicTacToe {
      * @version 1.0
      */
     private static void chooseCoord(String tile) {
-        Scanner s = new Scanner(System.in);
         System.out.print("Choose Coordinates: ");
         String coord = s.nextLine();
-        s.close();
 
         // Collects the second character for row
         int row = Integer.parseInt(coord.substring(1));
