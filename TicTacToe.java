@@ -1,6 +1,11 @@
 import java.util.Scanner;
 
-public class TicTacToe{
+/**
+ * @author Nicholas Cottrell
+ * @version 1.0
+ */
+public class TicTacToe {
+    /** The board used for the entire game */
     private static String[][] board = new String[3][3];
 
     public static void main(String args[]) {
@@ -18,25 +23,57 @@ public class TicTacToe{
         }
         System.out.println(decideWin() + " is the winner!");
     }
+
+    /**
+     * Initializes the board to blanks to begin the game.
+     * 
+     * @author Nicholas Cottrell
+     * @version 1.0
+     */
+    private static void initBoard() {
+        for (int r = 0; r < 3; r++)
+            for (int c = 0; c < 3; c++)
                 board[r][c] = " ";
     }
-    private static void construct(){
+
+    /**
+     * Prints a display of the board and its current set up.
+     * 
+     * @author Nicholas Cottrell
+     * @version 1.0
+     */
+    private static void construct() {
         System.out.println("    A   B   C");
-        for (int row=0; row <3; row++){
+        for (int row = 0; row < 3; row++) {
             System.out.println("  +---+---+---+");
             System.out.print(row);
-            for(int col=0; col<3; col++)
-                System.out.print(" | "+board[row][col]);
+            for (int col = 0; col < 3; col++)
+                System.out.print(" | " + board[row][col]);
             System.out.println(" |");
         }
         System.out.println("  +---+---+---+");
     }
-    private static void chooseCoord(String tile){
+
+    /**
+     * Places a given tile in the place requested. It makes sure that it can be
+     * placed and will use recursive if it cannot be placed in the required position
+     * (eg, the player asks to place a tile on another tile.) This will place the
+     * tile directly on the board.
+     * 
+     * @param tile the symbol of the tile to be placed. This is often an "X" or an
+     *             "O"
+     * @author Nicholas Cottrell
+     * @version 1.0
+     */
+    private static void chooseCoord(String tile) {
         Scanner s = new Scanner(System.in);
         System.out.print("Choose Coordinates: ");
         String coord = s.nextLine();
+        s.close();
+
+        // Collects the second character for row
         int row = Integer.parseInt(coord.substring(1));
-        if (row>2){
+        if (row > 2) {
             chooseCoord(tile);
             return;
         }
@@ -47,76 +84,79 @@ public class TicTacToe{
             col = 1;
         else if (coord.substring(0, 1).toUpperCase().equals("C"))
             col = 2;
-        else{
+        else { // if it cannot decude the column given, ask again.
             chooseCoord(tile);
             return;
         }
         if (board[row][col].equals(" "))
             board[row][col] = tile;
-        else {
+        else { // ask again if tile isnt empty
             chooseCoord(tile);
             return;
         }
     }
-    private static String decideWin(){
+
+    /**
+     * Does the math to decide if a winner can be declared.
+     * 
+     * @return returns the symbol of the winner.
+     * @author Nicholas Cottrell
+     * @version 1.0
+     */
+    private static String decideWin() {
         int x = 0;
         int o = 0;
         int s = 0;
-        for (int row=0; row<3; row++){
+
+        // determining if theres a win by rows
+        for (int row = 0; row < 3; row++) {
             x = 0;
             o = 0;
-            for (int col=0; col<3; col++){
+            for (int col = 0; col < 3; col++) {
                 x += (board[row][col].equals("x")) ? 1 : 0;
                 o += (board[row][col].equals("o")) ? 1 : 0;
             }
-            if (x==3)
+            if (x == 3)
                 return "x";
-            else if (o==3)
+            else if (o == 3)
                 return "o";
         }
-        for (int col=0; col<3; col++){
-            x=0;
-            o=0;
-            for (int row=0; row<3; row++){
+
+        // determining if theres a win by columns
+        for (int col = 0; col < 3; col++) {
+            x = 0;
+            o = 0;
+            for (int row = 0; row < 3; row++) {
                 x += (board[row][col].equals("x")) ? 1 : 0;
                 o += (board[row][col].equals("o")) ? 1 : 0;
             }
-            if (x==3)
+            if (x == 3)
                 return "x";
-            else if (o==3)
+            else if (o == 3)
                 return "0";
         }
-        for(int row=0; row<3; row++)
-            for(int col=0; col<3; col++)
+
+        // determining if theres a win by diagnols
+        for (int row = 0; row < 3; row++)
+            for (int col = 0; col < 3; col++)
                 s += (board[row][col].equals(" ")) ? 1 : 0;
         x = 0;
         o = 0;
-        for (int diag=0; diag<3; diag++){
-            x += (board[diag][diag].equals("x")) ? 1: 0;
-            o += board[diag][diag].equals("o") ? 1:0;
+        // checking first pair of diagnols
+        for (int diag = 0; diag < 3; diag++) {
+            x += (board[diag][diag].equals("x")) ? 1 : 0;
+            o += board[diag][diag].equals("o") ? 1 : 0;
         }
-        if (x==3 || (board[0][2].equals("x") && board[1][1].equals("x") && board[2][0].equals("x")))
+
+        // checking 2nd pair of diagnols
+        if (x == 3 || (board[0][2].equals("x") && board[1][1].equals("x") && board[2][0].equals("x")))
             return "x";
-        else if (o==3 || (board[0][2].equals("o") && board[1][1].equals("o") && board[2][0].equals("o")))
+        else if (o == 3 || (board[0][2].equals("o") && board[1][1].equals("o") && board[2][0].equals("o")))
             return "o";
         else if (s == 0)
             return "nobody";
         else
-            return "e";
+            return "e"; // means that match isnt over yet. someone could still win
     }
-    public static void main(String args[]){
-        initBoard();
-        construct();
-        while(true){
-            chooseCoord("x");
-            construct();
-            if (!(decideWin().equals("e")))
-                break;
-            chooseCoord("o");
-            construct();
-            if(!decideWin().equals("e"))
-                break;
-        }
-        System.out.println(decideWin() + " is the winner!");
-    }
+
 }
